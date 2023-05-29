@@ -12,11 +12,16 @@ const todos_asc = computed(() =>
 
 watch(name, (newVal) => localStorage.setItem("name", newVal));
 
-watch(todos, (newVal) => localStorage.setItem("todos", JSON.stringify(newVal)), { deep: true });
+watch(
+  todos,
+  (newVal) => localStorage.setItem("todos", JSON.stringify(newVal)),
+  { deep: true }
+);
 
 const addTodo = () => {
-  if (input_content.value.trim() === "" || input_category.value === null) return;
-  
+  if (input_content.value.trim() === "" || input_category.value === null)
+    return;
+
   todos.value.push({
     content: input_content.value,
     category: input_category.value,
@@ -26,14 +31,15 @@ const addTodo = () => {
   });
 };
 
-const removeTodo = (todo) => todos.value = todos.value.filter((t) => t !== todo);
+const removeTodo = (todo) =>
+  (todos.value = todos.value.filter((t) => t !== todo));
 
 onMounted(() => {
   name.value = localStorage.getItem("name") || "";
-  
+
   try {
     todos.value = JSON.parse(localStorage.getItem("todos")) || [];
-  } catch(error) {
+  } catch (error) {
     console.error("Failed to parse todos from localStorage", error);
     todos.value = [];
   }
